@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <h1><%= booking ? "Edit Booking" : "New Booking" %></h1>
+    <a href="/">Back</a>
+    <hr>
+    <% if(error) { %> <h3 style="color:red;"><%= error %></h3> <% } %>
+
+    <form action="/upsert" method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="bookingId" value="<%= booking?.bookingId || '' %>">
+        <input type="hidden" name="oldImage" value="<%= booking?.imageUrl || '' %>">
+
+        <p>Room Name: <input type="text" name="roomName" value="<%= booking?.roomName || '' %>" required></p>
+        <p>Customer Name: <input type="text" name="customerName" value="<%= booking?.customerName || '' %>" required></p>
+        
+        <p>Room Type: 
+            <select name="roomType">
+                <option value="Standard" <%= booking?.roomType === 'Standard' ? 'selected' : '' %>>Standard</option>
+                <option value="Deluxe" <%= booking?.roomType === 'Deluxe' ? 'selected' : '' %>>Deluxe</option>
+                <option value="Suite" <%= booking?.roomType === 'Suite' ? 'selected' : '' %>>Suite</option>
+            </select>
+        </p>
+        
+        <p>Days (Số ngày): <input type="number" name="days" value="<%= booking?.days || 1 %>" required></p>
+        <p>Price / Day: <input type="number" name="pricePerDay" value="<%= booking?.pricePerDay || 500000 %>" required></p>
+        <p>Check-in Date: <input type="date" name="checkInDate" value="<%= booking?.checkInDate || '' %>" required></p>
+        
+        <p>Status: 
+            <select name="status">
+                <option value="Pending" <%= booking?.status === 'Pending' ? 'selected' : '' %>>Pending</option>
+                <option value="Confirmed" <%= booking?.status === 'Confirmed' ? 'selected' : '' %>>Confirmed</option>
+                <option value="Cancelled" <%= booking?.status === 'Cancelled' ? 'selected' : '' %>>Cancelled</option>
+            </select>
+        </p>
+        
+        <p>Room Image: 
+            <% if(booking?.imageUrl) { %> <img src="<%= booking.imageUrl %>" width="50"> <% } %>
+            <input type="file" name="image">
+        </p>
+
+        <button type="submit">SAVE BOOKING</button>
+    </form>
+</body>
+</html>

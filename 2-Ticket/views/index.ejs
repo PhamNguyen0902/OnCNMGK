@@ -1,0 +1,70 @@
+<h1>Danh sách vé</h1>
+<a href="/form">Tạo vé mới</a>
+
+<form action="/" method="get">
+    <div style="gap: 1rem; border: 3px solid black; margin: 1rem; padding: 1rem; display: flex; flex-direction: column; border-radius: 1rem;">
+        <input type="text" name="nameQuery" placeholder="nameQuery">
+        <div>
+            <label>status</label>
+            <select name="statusQuery">
+                <option value="All">All</option>
+                <option value="Upcoming">Upcoming</option>
+                <option value="Sold">Sold</option>
+                <option value="Cancelled">Cancelled</option>
+            </select>
+        </div>
+
+        <button type="submit">Tìm kiếm</button>
+    </div>
+</form>
+
+<table
+  border="1"
+  width="80%"
+  style="text-align: center; margin: 1rem auto"
+>
+    <tr>
+        <td>ticketId</td>
+        <td>eventName</td>
+        <td>holderName</td>
+        <td>category</td>
+        <td>quantity</td>
+        <td>pricePerTicket</td>
+        <td>eventDate</td>
+        <td>status</td>
+        <td>imageUrl</td>
+        <td>totalAmount</td>
+        <td>finalAmount</td>
+        <td>discount</td>
+        <td>actions</td>
+    </tr>
+    <% tickets.forEach(t => { %>
+        <tr>
+            <td><%= t.ticketId %></td>
+            <td><%= t.eventName %></td>
+            <td><%= t.holderName %></td>
+            <td><%= t.category %></td>
+            <td><%= t.quantity %></td>
+            <td><%= t.pricePerTicket %></td>
+            <td><%= t.eventDate %></td>
+            <td><%= t.status %></td>
+            <td>
+                <img src="<%= t.imageUrl %>" width="80" alt="">
+            </td>
+            <td><%= t.totalAmount %></td>
+            <td><%= t.finalAmount %></td>
+            <td><%= t.discount %></td>
+            <td>
+                <div style="display: flex; justify-content: center; gap: 1rem">
+                    <a href="/form/<%= t.ticketId %>">
+                        <button>Sửa</button>
+                    </a>
+                    <form action="/tickets/delete/<%= t.ticketId %>" method="post">
+                        <button type="submit">Xóa</button>
+                    </form>
+                </div>
+            </td>
+        </tr>
+    <% }) %>
+
+</table>

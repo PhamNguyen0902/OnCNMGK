@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <h1><%= course ? "Edit Enrollment" : "New Enrollment" %></h1>
+    <a href="/">Back</a>
+    <hr>
+    <% if(error) { %> <h3 style="color:red;"><%= error %></h3> <% } %>
+
+    <form action="/upsert" method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="courseId" value="<%= course?.courseId || '' %>">
+        <input type="hidden" name="oldImage" value="<%= course?.imageUrl || '' %>">
+
+        <p>Course Name: <input type="text" name="courseName" value="<%= course?.courseName || '' %>" required></p>
+        <p>Student Name: <input type="text" name="studentName" value="<%= course?.studentName || '' %>" required></p>
+        
+        <p>Level: 
+            <select name="level">
+                <option value="Beginner" <%= course?.level === 'Beginner' ? 'selected' : '' %>>Beginner</option>
+                <option value="Intermediate" <%= course?.level === 'Intermediate' ? 'selected' : '' %>>Intermediate</option>
+                <option value="Advanced" <%= course?.level === 'Advanced' ? 'selected' : '' %>>Advanced</option>
+            </select>
+        </p>
+        
+        <p>Duration (Tháng): <input type="number" name="duration" value="<%= course?.duration || 1 %>" required></p>
+        <p>Fee / Month (Học phí 1 tháng): <input type="number" name="feePerMonth" value="<%= course?.feePerMonth || 1000000 %>" required></p>
+        <p>Start Date: <input type="date" name="startDate" value="<%= course?.startDate || '' %>" required></p>
+        
+        <p>Status: 
+            <select name="status">
+                <option value="Active" <%= course?.status === 'Active' ? 'selected' : '' %>>Active</option>
+                <option value="Completed" <%= course?.status === 'Completed' ? 'selected' : '' %>>Completed</option>
+                <option value="Dropped" <%= course?.status === 'Dropped' ? 'selected' : '' %>>Dropped</option>
+            </select>
+        </p>
+        
+        <p>Course Banner: 
+            <% if(course?.imageUrl) { %> <img src="<%= course.imageUrl %>" width="50"> <% } %>
+            <input type="file" name="image">
+        </p>
+
+        <button type="submit">SAVE ENROLLMENT</button>
+    </form>
+</body>
+</html>

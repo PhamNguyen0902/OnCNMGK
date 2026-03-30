@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<body style="max-width: 1000px; margin: auto; font-family: sans-serif;">
+    <h1>Course Registration List</h1>
+    <a href="/form" style="display:inline-block; margin-bottom: 20px; padding: 10px; background: blue; color: white; text-decoration: none;">+ Enroll New Student</a>
+    <hr>
+    
+    <form action="/" method="GET" style="margin-bottom: 20px;">
+        <input type="text" name="q" placeholder="Search course or student...">
+        <select name="status">
+            <option value="all">All</option>
+            <option value="Active">Active</option>
+            <option value="Completed">Completed</option>
+            <option value="Dropped">Dropped</option>
+        </select>
+        <button type="submit">Search</button>
+    </form>
+
+    <table border="1" cellspacing="0" cellpadding="10" style="width: 100%; border-collapse: collapse;">
+        <thead style="background-color: #f2f2f2;">
+            <tr>
+                <th>Banner</th>
+                <th>Course Info</th>
+                <th>Student Info</th>
+                <th>Tuition Fee</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% courses.forEach(c => { %>
+                <tr>
+                    <td style="width: 120px; text-align: center;">
+                        <% if(c.imageUrl) { %>
+                            <img src="<%= c.imageUrl %>" style="width: 100px; height: 100px; object-fit: cover;">
+                        <% } %>
+                    </td>
+                    <td>
+                        <h3><%= c.courseName %></h3>
+                        <p>Start Date: <b><%= c.startDate %></b></p>
+                        <p>Status: <b style="color: red;"><%= c.status %></b></p>
+                    </td>
+                    <td>
+                        <p><b><%= c.studentName %></b></p>
+                        <p>Level: <%= c.level %></p>
+                        <p>Duration: <b><%= c.duration %> months</b></p>
+                    </td>
+                    <td>
+                        <p>Total: <s><%= c.totalTuition %></s></p>
+                        <p style="color: green; font-weight: bold;">Final: <%= c.finalTuition %></p>
+                        <span style="background: yellow; padding: 3px;"><%= c.discount %></span>
+                    </td>
+                    <td>
+                        <a href="/form?id=<%= c.courseId %>"><button>Edit</button></a><br><br>
+                        <form action="/delete/<%= c.courseId %>" method="POST" style="display:inline;">
+                            <button onclick="return confirm('Delete this record?')">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<body style="max-width: 1000px; margin: auto; font-family: sans-serif;">
+    <h1>Hotel Booking List</h1>
+    <a href="/form" style="display:inline-block; margin-bottom: 20px; padding: 10px; background: blue; color: white; text-decoration: none;">+ New Booking</a>
+    <hr>
+    
+    <form action="/" method="GET" style="margin-bottom: 20px;">
+        <input type="text" name="q" placeholder="Search room or customer...">
+        <select name="status">
+            <option value="all">All</option>
+            <option value="Pending">Pending</option>
+            <option value="Confirmed">Confirmed</option>
+            <option value="Cancelled">Cancelled</option>
+        </select>
+        <button type="submit">Search</button>
+    </form>
+
+    <table border="1" cellspacing="0" cellpadding="10" style="width: 100%; border-collapse: collapse;">
+        <thead style="background-color: #f2f2f2;">
+            <tr>
+                <th>Room Image</th>
+                <th>Room Info</th>
+                <th>Customer Info</th>
+                <th>Payment</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% bookings.forEach(b => { %>
+                <tr>
+                    <td style="width: 120px; text-align: center;">
+                        <% if(b.imageUrl) { %>
+                            <img src="<%= b.imageUrl %>" style="width: 100px; height: 100px; object-fit: cover;">
+                        <% } %>
+                    </td>
+                    <td>
+                        <h3><%= b.roomName %></h3>
+                        <p>Check-in: <b><%= b.checkInDate %></b></p>
+                        <p>Status: <b style="color: red;"><%= b.status %></b></p>
+                    </td>
+                    <td>
+                        <p><b><%= b.customerName %></b></p>
+                        <p>Type: <%= b.roomType %></p>
+                        <p>Days: <b><%= b.days %></b></p>
+                    </td>
+                    <td>
+                        <p>Total: <s><%= b.totalAmount %></s></p>
+                        <p style="color: green; font-weight: bold;">Final: <%= b.finalAmount %></p>
+                        <span style="background: yellow; padding: 3px;"><%= b.discount %></span>
+                    </td>
+                    <td>
+                        <a href="/form?id=<%= b.bookingId %>"><button>Edit</button></a><br><br>
+                        <form action="/delete/<%= b.bookingId %>" method="POST" style="display:inline;">
+                            <button onclick="return confirm('Delete?')">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</body>
+</html>
